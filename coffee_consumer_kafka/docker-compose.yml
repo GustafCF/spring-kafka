@@ -1,0 +1,31 @@
+services:
+  mysql_db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=123
+      - MYSQL_DATABASE=mydb
+      - MYSQL_ROOT_PASSWORD=123
+    volumes:
+      - mysqlvolume:/var/lib/mysql
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - "8000:80"
+    environment:
+      - PMA_HOST=mysql_db
+    depends_on:
+      - mysql_db
+    networks:
+      - app-network
+
+volumes:
+  mysqlvolume:
+
+networks:
+  app-network:
